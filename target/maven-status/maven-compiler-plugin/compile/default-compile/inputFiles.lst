@@ -1,0 +1,6 @@
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/steps/DialogflowSteps.java
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/DialogflowCi.java
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/dialogflow/helper/ResponseHelper.java
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/dialogflow/Dialogflow.java
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/DialogflowTestRunner.java
+/home/vincent/projects/dialogflow-ci-java/dialogflow-ci/src/main/java/com/github/flock_se/dialogflow_ci/dialogflow/helper/RequestHelper.java

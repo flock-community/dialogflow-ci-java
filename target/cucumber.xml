@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite failures="1" name="cucumber.runtime.formatter.JUnitFormatter" skipped="0" tests="1" time="1.107182">
+<testcase classname="Voorbeeld" name="Test" time="1.107182">
+<failure message="javax.ws.rs.NotFoundException: HTTP 404 Not Found&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation.convertToException(JerseyInvocation.java:1095)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation.translate(JerseyInvocation.java:894)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation.access$700(JerseyInvocation.java:98)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation$2.call(JerseyInvocation.java:776)&#10;&#9;at org.glassfish.jersey.internal.Errors.process(Errors.java:315)&#10;&#9;at org.glassfish.jersey.internal.Errors.process(Errors.java:297)&#10;&#9;at org.glassfish.jersey.internal.Errors.process(Errors.java:228)&#10;&#9;at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:407)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation.invoke(JerseyInvocation.java:772)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation$Builder.method(JerseyInvocation.java:454)&#10;&#9;at org.glassfish.jersey.client.JerseyInvocation$Builder.post(JerseyInvocation.java:355)&#10;&#9;at com.github.flock_se.dialogflow_ci.dialogflow.helper.RequestHelper.query(RequestHelper.java:30)&#10;&#9;at com.github.flock_se.dialogflow_ci.dialogflow.Dialogflow.say(Dialogflow.java:19)&#10;&#9;at com.github.flock_se.dialogflow_ci.steps.DialogflowSteps.lambda$new$1(DialogflowSteps.java:24)&#10;&#9;at ✽.Als ik zeg &quot;Nou, gewoon&quot;(example.feature:10)&#10;"><![CDATA[Stel ik begin een gesprek met de "Test" Google Home applicatie..............passed
+Dan begrijpt de assistente dat ik "Hoe gaat het" bedoel.....................passed
+En ze vraagt "Waarom wil je dat weten?".....................................passed
+Als ik zeg "Nou, gewoon"....................................................failed
+Dan begrijpt ze dat ik de "Hoe gaat het - nou gewoon" intentie heb..........skipped
+En de assistente zegt "Goed"................................................skipped
+
+StackTrace:
+javax.ws.rs.NotFoundException: HTTP 404 Not Found
+	at org.glassfish.jersey.client.JerseyInvocation.convertToException(JerseyInvocation.java:1095)
+	at org.glassfish.jersey.client.JerseyInvocation.translate(JerseyInvocation.java:894)
+	at org.glassfish.jersey.client.JerseyInvocation.access$700(JerseyInvocation.java:98)
+	at org.glassfish.jersey.client.JerseyInvocation$2.call(JerseyInvocation.java:776)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:228)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:407)
+	at org.glassfish.jersey.client.JerseyInvocation.invoke(JerseyInvocation.java:772)
+	at org.glassfish.jersey.client.JerseyInvocation$Builder.method(JerseyInvocation.java:454)
+	at org.glassfish.jersey.client.JerseyInvocation$Builder.post(JerseyInvocation.java:355)
+	at com.github.flock_se.dialogflow_ci.dialogflow.helper.RequestHelper.query(RequestHelper.java:30)
+	at com.github.flock_se.dialogflow_ci.dialogflow.Dialogflow.say(Dialogflow.java:19)
+	at com.github.flock_se.dialogflow_ci.steps.DialogflowSteps.lambda$new$1(DialogflowSteps.java:24)
+	at ✽.Als ik zeg "Nou, gewoon"(example.feature:10)
+]]></failure>
+</testcase>
+</testsuite>
