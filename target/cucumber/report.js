@@ -31,19 +31,24 @@ formatter.match({
       "offset": 29
     }
   ],
-  "location": "DialogflowSteps.java:15"
+  "location": "DialogflowSteps.java:20"
 });
 formatter.result({
-  "duration": 85147680,
+  "duration": 73236261,
   "status": "passed"
 });
 formatter.scenario({
   "line": 6,
   "name": "Test",
-  "description": "Wanneer ik zeg \"Hoe gaat het?\"",
+  "description": "",
   "id": "voorbeeld;test",
   "type": "scenario",
   "keyword": "Scenario"
+});
+formatter.step({
+  "line": 7,
+  "name": "ik zeg \"Hoe gaat het?\"",
+  "keyword": "Als "
 });
 formatter.step({
   "line": 8,
@@ -73,14 +78,27 @@ formatter.step({
 formatter.match({
   "arguments": [
     {
-      "val": "Hoe gaat het",
-      "offset": 31
+      "val": "Hoe gaat het?",
+      "offset": 8
     }
   ],
   "location": "DialogflowSteps.java:27"
 });
 formatter.result({
-  "duration": 67279,
+  "duration": 1812487603,
+  "status": "passed"
+});
+formatter.match({
+  "arguments": [
+    {
+      "val": "Hoe gaat het",
+      "offset": 31
+    }
+  ],
+  "location": "DialogflowSteps.java:35"
+});
+formatter.result({
+  "duration": 114225111,
   "status": "passed"
 });
 formatter.match({
@@ -90,10 +108,10 @@ formatter.match({
       "offset": 11
     }
   ],
-  "location": "DialogflowSteps.java:30"
+  "location": "DialogflowSteps.java:39"
 });
 formatter.result({
-  "duration": 50810,
+  "duration": 46539,
   "status": "passed"
 });
 formatter.match({
@@ -103,12 +121,11 @@ formatter.match({
       "offset": 8
     }
   ],
-  "location": "DialogflowSteps.java:22"
+  "location": "DialogflowSteps.java:27"
 });
 formatter.result({
-  "duration": 1021916358,
-  "error_message": "javax.ws.rs.NotFoundException: HTTP 404 Not Found\n\tat org.glassfish.jersey.client.JerseyInvocation.convertToException(JerseyInvocation.java:1095)\n\tat org.glassfish.jersey.client.JerseyInvocation.translate(JerseyInvocation.java:894)\n\tat org.glassfish.jersey.client.JerseyInvocation.access$700(JerseyInvocation.java:98)\n\tat org.glassfish.jersey.client.JerseyInvocation$2.call(JerseyInvocation.java:776)\n\tat org.glassfish.jersey.internal.Errors.process(Errors.java:315)\n\tat org.glassfish.jersey.internal.Errors.process(Errors.java:297)\n\tat org.glassfish.jersey.internal.Errors.process(Errors.java:228)\n\tat org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:407)\n\tat org.glassfish.jersey.client.JerseyInvocation.invoke(JerseyInvocation.java:772)\n\tat org.glassfish.jersey.client.JerseyInvocation$Builder.method(JerseyInvocation.java:454)\n\tat org.glassfish.jersey.client.JerseyInvocation$Builder.post(JerseyInvocation.java:355)\n\tat com.github.flock_se.dialogflow_ci.dialogflow.helper.RequestHelper.query(RequestHelper.java:30)\n\tat com.github.flock_se.dialogflow_ci.dialogflow.Dialogflow.say(Dialogflow.java:19)\n\tat com.github.flock_se.dialogflow_ci.steps.DialogflowSteps.lambda$new$1(DialogflowSteps.java:24)\n\tat ✽.Als ik zeg \"Nou, gewoon\"(example.feature:10)\n",
-  "status": "failed"
+  "duration": 500099250,
+  "status": "passed"
 });
 formatter.match({
   "arguments": [
@@ -117,10 +134,11 @@ formatter.match({
       "offset": 23
     }
   ],
-  "location": "DialogflowSteps.java:33"
+  "location": "DialogflowSteps.java:42"
 });
 formatter.result({
-  "status": "skipped"
+  "duration": 18058879,
+  "status": "passed"
 });
 formatter.match({
   "arguments": [
@@ -129,9 +147,10 @@ formatter.match({
       "offset": 20
     }
   ],
-  "location": "DialogflowSteps.java:36"
+  "location": "DialogflowSteps.java:46"
 });
 formatter.result({
-  "status": "skipped"
+  "duration": 126585,
+  "status": "passed"
 });
 });

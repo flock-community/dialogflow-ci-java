@@ -1,13 +1,18 @@
 package com.github.flock_se.dialogflow_ci.steps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.flock_se.dialogflow_ci.DialogflowTestRunner;
 import com.github.flock_se.dialogflow_ci.dialogflow.Dialogflow;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.Nl;
 
 public class DialogflowSteps implements Nl {
-	private DialogflowTestRunner context;
+	protected DialogflowTestRunner context;
 	
 	public DialogflowSteps(DialogflowTestRunner context) {
 		this.context = context;
@@ -20,20 +25,33 @@ public class DialogflowSteps implements Nl {
 		});
 
 		Als("^ik zeg \"([^\"]*)\"$", (String sentence) -> {
-			System.out.println("HIER");
-		    context.getApplication().say(sentence);
+		    try {
+				context.getApplication().say(sentence);
+			} catch (JsonProcessingException e) {
+				fail("Failed to generate the request: " + e.getMessage());
+			}
 		});
 
-		Dan("^begrijpt de assistente dat ik \"([^\"]*)\" bedoel$", (String arg1) -> {
+		Dan("^begrijpt de assistente dat ik \"([^\"]*)\" bedoel$", (String intent) -> {
+			testIntent(intent);
 		});
 
 		Dan("^ze vraagt \"([^\"]*)\"$", (String arg1) -> {
 		});
 
-		Dan("^begrijpt ze dat ik de \"([^\"]*)\" intentie heb$", (String arg1) -> {
+		Dan("^begrijpt ze dat ik de \"([^\"]*)\" intentie heb$", (String intent) -> {
+			testIntent(intent);
 		});
 
 		Dan("^de assistente zegt \"([^\"]*)\"$", (String arg1) -> {
 		});
+	}
+
+	private void testIntent(String intent) {
+		try {
+			assertEquals(intent, context.getApplication().getIntent());
+		} catch (IOException e) {
+			fail("Failed to parse response: " + e.getMessage());
+		}
 	}
 }

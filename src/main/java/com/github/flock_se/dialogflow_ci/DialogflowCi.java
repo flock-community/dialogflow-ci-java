@@ -7,8 +7,8 @@ package com.github.flock_se.dialogflow_ci;
  */
 public class DialogflowCi 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws Throwable
     {
-        System.out.println( "To be implemented (download/upload)" );
+    	cucumber.api.cli.Main.main(args);
     }
 }
