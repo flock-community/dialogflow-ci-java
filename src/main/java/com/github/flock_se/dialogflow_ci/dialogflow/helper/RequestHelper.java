@@ -42,6 +42,8 @@ public class RequestHelper {
 				String.format("/projects/%s/agent/sessions/%s:detectIntent", projectId, sessionId));
 		
 		String json = generateQueryRequestBody(sentence);
+		System.out.println(target.getUri().toString());
+		System.out.println(json);
 		
 		return doRequest(target, json);
 	}
@@ -68,7 +70,8 @@ public class RequestHelper {
 				      .post(Entity.entity(json, MediaType.APPLICATION_JSON_TYPE), 
 				    		  	String.class);
 
-			
+			System.out.println("RESPONSE:");
+			System.out.println(bean);
 			return bean;
 		} catch(javax.ws.rs.WebApplicationException e) {
 			System.out.println(e.getResponse().readEntity(String.class));
