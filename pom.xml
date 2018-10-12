@@ -2,17 +2,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.github.flock-se</groupId>
-    <artifactId>dialogflow-ci</artifactId>
+    <artifactId>dialogflow-ci-java</artifactId>
     <packaging>jar</packaging>
     <version>master-SNAPSHOT</version>
-    <name>dialogflow-ci</name>
+
     <url>http://maven.apache.org</url>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
