@@ -20,7 +20,7 @@ public class DialogflowSteps implements Nl {
 		Stel("^ik begin een gesprek met de \"([^\"]*)\" Google Home applicatie$", (String application) -> {
 		    String projectId = System.getProperty("projectID");
 		    String token = System.getProperty("token");
-			Dialogflow app = new Dialogflow(application, projectId, token);
+			Dialogflow app = new Dialogflow(projectId, token);
 			context.setApplication(app);
 		});
 

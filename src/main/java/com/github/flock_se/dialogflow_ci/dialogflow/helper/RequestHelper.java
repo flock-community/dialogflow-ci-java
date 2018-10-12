@@ -37,15 +37,29 @@ public class RequestHelper {
 	}
 
 	public String query(String sentence) throws JsonProcessingException {
-		log.info("HIER");
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(BASE_URL).path(
 				String.format("/projects/%s/agent/sessions/%s:detectIntent", projectId, sessionId));
 		
 		String json = generateQueryRequestBody(sentence);
 		
+		return doRequest(target, json);
+	}
+	
+	public String download() throws JsonProcessingException {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(BASE_URL).path(
+				String.format("/projects/%s/agent:export", projectId));
+		
+		String json = "{}";
+		
 		System.out.println(target.getUri().toString());
 		System.out.println(json);
+		return doRequest(target, json);
+	}
+	
+
+	private String doRequest(WebTarget target, String json) {
 		try {
 			String bean =
 				target.request(MediaType.APPLICATION_JSON_TYPE)

@@ -11,13 +11,10 @@ Follow the steps here to setup authentication for your project:
   https://dialogflow.com/docs/reference/v2-auth-setup
 This will let you generate access tokens.
 
-## Running the Example project
-Clone/Download this from Github. From the root of this directory run:
-```
- mvn test -DprojectID=test-13cdd -Dtoken=$(GOOGLE_APPLICATION_CREDENTIALS=<TODO: generate key file which is only allowed to test> gcloud auth application-default print-access-token)
-```
+## The Example project
+Clone/Download this from Github. In the resources/features directory there is an example feature for a simple Dialogflow project.
 
-This tests the feature in resources/features/example.feature against an example Dialogflow application.
+Go to <travis ci link>. This tests the feature against the example Dialogflow application.
 
 ## Install/Run
 Add the dialogflow-ci-java package to your project. Create a test runner such as the src/test/java/TestExampleDialogFlow.java runner from this project's Github.
@@ -48,6 +45,8 @@ If you are not Dutch and/or not want to run steps in Dutch, you can copy all ste
 
 ## Dowloading/Uploading projects
 
-TODO: command
+```
+mvn exec:java -Dexec.mainClass="com.github.flock_se.dialogflow_ci.DialogflowCi" -Dexec.args="download -p=<projectId> -t=<token> -d=<target>"
+ ```
 
-This downloads/uploads all the intents/entities from your project as json files to/from the specified directory.
+This downloads all the intents/entities from your project as json files to the specified target directory. Replace download with upload to upload all intents/entities from the target directory to your project.
