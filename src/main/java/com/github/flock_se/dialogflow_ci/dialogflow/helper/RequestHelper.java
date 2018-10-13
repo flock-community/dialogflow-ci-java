@@ -10,6 +10,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.github.flock_se.dialogflow_ci.json.Context;
 import com.github.flock_se.dialogflow_ci.json.DetectIntentRequestBody;
+import com.github.flock_se.dialogflow_ci.json.ImportRequestBody;
 import com.github.flock_se.dialogflow_ci.json.QueryInput;
 import com.github.flock_se.dialogflow_ci.json.QueryParameters;
 import com.github.flock_se.dialogflow_ci.json.TextInput;
@@ -59,6 +61,19 @@ public class RequestHelper {
 		System.out.println(json);
 		return doRequest(target, json);
 	}
+
+	public void upload(byte[] zipData) throws JsonProcessingException {
+		String payload = DatatypeConverter.printBase64Binary((zipData));
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(BASE_URL).path(
+				String.format("/projects/%s/agent:import", projectId));
+		
+		String json = generateImportRequestBody(payload);
+		System.out.println(target.getUri().toString());
+		System.out.println(json);
+		
+		doRequest(target, json);
+	}
 	
 
 	private String doRequest(WebTarget target, String json) {
@@ -92,6 +107,13 @@ public class RequestHelper {
 		queryInput.setText(textInput);
 		textInput.setText(sentence);
 		textInput.setLanguageCode("nl");
+		
+		return convertToJson(body);
+	}
+	
+	private String generateImportRequestBody(String payload) throws JsonProcessingException {
+		ImportRequestBody body = new ImportRequestBody();
+		body.setAgentContent(payload);
 		
 		return convertToJson(body);
 	}

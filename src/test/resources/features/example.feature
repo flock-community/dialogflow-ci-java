@@ -4,7 +4,7 @@ Functionaliteit: Voorbeeld
     Stel ik begin een gesprek met de "Test" Google Home applicatie
 
   Scenario: Test
-    Wanneer ik zeg "Hoe gaat het?"
+    Als ik zeg "Hoe gaat het?"
     Dan begrijpt de assistente dat ik "Hoe gaat het" bedoel
     En ze vraagt "Waarom wil je dat weten?"
     Als ik zeg "Nou, gewoon"

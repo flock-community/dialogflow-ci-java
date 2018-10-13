@@ -14,7 +14,7 @@ This will let you generate access tokens.
 ## The Example project
 Clone/Download this from Github. In the resources/features directory there is an example feature for a simple Dialogflow project.
 
-Go to <travis ci link>. This tests the feature against the example Dialogflow application.
+Go to https://travis-ci.org/flock-se/dialogflow-ci-example. The feature is tested against the example Dialogflow application here.
 
 ## Install/Run
 Add the dialogflow-ci-java package to your project. Create a test runner such as the src/test/java/TestExampleDialogFlow.java runner from this project's Github.
@@ -47,6 +47,6 @@ If you are not Dutch and/or not want to run steps in Dutch, you can copy all ste
 
 ```
 mvn exec:java -Dexec.mainClass="com.github.flock_se.dialogflow_ci.DialogflowCi" -Dexec.args="download -p=<projectId> -t=<token> -d=<target>"
- ```
+```
 
 This downloads all the intents/entities from your project as json files to the specified target directory. Replace download with upload to upload all intents/entities from the target directory to your project.

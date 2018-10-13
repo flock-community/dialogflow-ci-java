@@ -74,7 +74,6 @@ public class DialogflowCi
     	String projectId = cmd.getOptionValue(projectIdOpt.getOpt());
 		String token = cmd.getOptionValue(tokenOpt.getOpt());
 		String dir = cmd.getOptionValue(dirOpt.getOpt());
-		System.out.println(projectId + " " + token + " " + dir);
     	
     	if (command.equals("download")) {
 			new Dialogflow(projectId, token).download(dir);

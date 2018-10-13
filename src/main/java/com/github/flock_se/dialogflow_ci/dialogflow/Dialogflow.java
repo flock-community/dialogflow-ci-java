@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.flock_se.dialogflow_ci.dialogflow.helper.RequestHelper;
 import com.github.flock_se.dialogflow_ci.dialogflow.helper.ResponseHelper;
+import com.github.flock_se.dialogflow_ci.dialogflow.helper.ZipUtils;
 
 public class Dialogflow {
 	
@@ -50,26 +51,11 @@ public class Dialogflow {
 		String response = requestHelper.download();
 		byte[] compressedData = responseHelper.getZipDataFrom(response);
 		
-		File file = new File(dir);
-		file.mkdirs();
-		
-	    ZipInputStream zi = null;
-	    try {
-	        zi = new ZipInputStream(new ByteArrayInputStream(compressedData));
-	        ZipEntry zipEntry = null;
-	        while ((zipEntry = zi.getNextEntry()) != null) {
-	        	Path path = Paths.get(file.getAbsolutePath(), zipEntry.getName().replaceAll(" ", "\\ "));
-	        	Files.createDirectories(path.getParent());
-	        	Files.copy(zi, path, StandardCopyOption.REPLACE_EXISTING);
-	        }
-	    } finally {
-	        if (zi != null) {
-	            zi.close();
-	        }
-	    }
+		ZipUtils.unZip(dir, compressedData);
 	}
 	
-	public void upload(String dir) {
-		
+	public void upload(String dir) throws JsonProcessingException {
+		byte[] zipData = ZipUtils.zip(dir);
+		requestHelper.upload(zipData);
 	}
 }
