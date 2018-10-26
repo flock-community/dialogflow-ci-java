@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.flock-se</groupId>
+    <groupId>com.github.flock-community</groupId>
     <artifactId>dialogflow-ci-java</artifactId>
     <packaging>jar</packaging>
     <version>master-SNAPSHOT</version>
