@@ -45,7 +45,15 @@ public class Dialogflow {
 			Assert.fail("No response! (getIntent)");
 		
 		return responseHelper.getIntent(lastResponse);
-	}	
+	}
+	
+	public String getSpeech() throws JsonParseException, JsonMappingException, IOException {
+		// TODO: raise a nice exception
+		if (lastResponse == null)
+			Assert.fail("No response! (getIntent)");
+		
+		return responseHelper.getSpeech(lastResponse);
+	}
 	
 	public void download(String dir) throws DataFormatException, IOException {
 		String response = requestHelper.download();

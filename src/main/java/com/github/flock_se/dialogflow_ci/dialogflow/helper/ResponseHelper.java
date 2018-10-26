@@ -28,6 +28,12 @@ public class ResponseHelper {
 		
 		return body.getQueryResult().getIntent().getDisplayName();
 	}
+	
+	public String getSpeech(String lastResponse) throws JsonParseException, JsonMappingException, IOException {
+		DetectIntentResponseBody body = parseDetectIntentResponse(lastResponse);
+		
+		return body.getQueryResult().getFulfillmentText();
+	}
 
 	public byte[] getZipDataFrom(String response) throws DataFormatException, IOException {
 		Operation operation = parseOperationResponse(response);

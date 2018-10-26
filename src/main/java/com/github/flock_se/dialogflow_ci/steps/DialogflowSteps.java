@@ -43,8 +43,17 @@ public class DialogflowSteps implements Nl {
 			testIntent(intent);
 		});
 
-		Dan("^de assistente zegt \"([^\"]*)\"$", (String arg1) -> {
+		Dan("^de assistente zegt \"([^\"]*)\"$", (String speech) -> {
+			testSpeech(speech);
 		});
+	}
+
+	private void testSpeech(String speech) {
+		try {
+			assertEquals(speech, context.getApplication().getSpeech());
+		} catch (IOException e) {
+			fail("Failed to parse response: " + e.getMessage());
+		}
 	}
 
 	private void testIntent(String intent) {
