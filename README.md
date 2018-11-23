@@ -20,14 +20,16 @@ Go to https://travis-ci.org/flock-se/dialogflow-ci-example. The feature is teste
 Add the dialogflow-ci-java package to your project. Create a test runner such as the src/test/java/TestExampleDialogFlow.java runner from this project's Github.
   
 Then you can run your features from the command line with:
+
 ```
-mvn test -DProjectID=<your project id> -Dtoken=<your access token>
+mvn test -DprojectID=<your project id> -Dtoken=<your access token>
 ```
 
 ## Adding test steps
 In order to add cucumber steps, create a class in your project such as:
+
 ```
-import com.github.flock_se.dialogflow_ci.DialogflowTestRunner;
+import community.flock.dialogflow_ci.DialogflowTestRunner;
 import cucumber.api.java8.Nl;
 
 public class MySteps extends DialogflowTestRunner implements Nl {	
@@ -46,7 +48,7 @@ If you are not Dutch and/or not want to run steps in Dutch, you can copy all ste
 ## Dowloading/Uploading projects
 
 ```
-mvn exec:java -Dexec.mainClass="com.github.flock_se.dialogflow_ci.DialogflowCi" -Dexec.args="download -p=<projectId> -t=<token> -d=<target>"
+mvn exec:java -Dexec.mainClass="community.flock.dialogflow_ci.DialogflowCi" -Dexec.args="download -p=<projectId> -t=<token> -d=<target>"
 ```
 
 This downloads all the intents/entities from your project as json files to the specified target directory. Replace download with upload to upload all intents/entities from the target directory to your project.

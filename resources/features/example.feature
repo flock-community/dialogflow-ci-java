@@ -9,4 +9,9 @@ Functionaliteit: Voorbeeld
     En ze vraagt "Waarom wil je dat weten?"
     Als ik zeg "Nou, gewoon"
     Dan begrijpt ze dat ik de "Hoe gaat het - nou gewoon" intentie heb
-    En de assistente zegt "Goed"
+    En de assistente zegt "Slecht"
+    En een eenvoudige kaart wordt getoond met:
+    	| title         | Title    |
+    	| subtitle      | SubTitle |
+    	| formattedText | Text     |
+    	
