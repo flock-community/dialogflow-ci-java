@@ -1,3 +1,7 @@
+## RELEASE_3
+
+* Prints the intents which were covered and uncovered during the test run
+
 ## RELEASE_2
 
 * Add support for basic cards

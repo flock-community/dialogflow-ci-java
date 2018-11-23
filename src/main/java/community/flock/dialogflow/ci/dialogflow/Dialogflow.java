@@ -1,10 +1,16 @@
 package community.flock.dialogflow.ci.dialogflow;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.zip.DataFormatException;
+import java.util.zip.ZipEntry;
 
+import community.flock.dialogflow.ci.dialogflow.helper.CoverageInfo;
 import community.flock.dialogflow.ci.dialogflow.helper.RequestHelper;
 import community.flock.dialogflow.ci.dialogflow.helper.ResponseHelper;
 import community.flock.dialogflow.ci.dialogflow.helper.ResponseParser;
@@ -27,11 +33,13 @@ public class Dialogflow {
 	
 	private String lastResponse;
 	private DetectIntentResponseBody body;
+	private Set<String> coveredIntents;
 
 	public Dialogflow(String projectId, String token) {
 		this.requestHelper = new RequestHelper(projectId, token);
 		this.responseHelper = new ResponseHelper();
 		this.responseParser = new ResponseParser();
+		this.coveredIntents = new HashSet<>();
 	}
 
 	public void say(String sentence) throws JsonProcessingException {
@@ -66,12 +74,32 @@ public class Dialogflow {
 			return null;
 	}
 	
+	public CoverageInfo getCoverageInfo() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, DataFormatException {
+		Set<String> intents = getAllIntentNames();
+		
+		return new CoverageInfo(intents, coveredIntents);
+	}
+
+	private Set<String> getAllIntentNames()
+			throws IOException, JsonProcessingException, DataFormatException, JsonParseException, JsonMappingException {
+		return ZipUtils.getZipEntries(getCompressedIntents()).stream()
+				.map(ZipEntry::getName)
+				.filter(name -> name.startsWith("intents/"))
+				.map(name -> name.replace("intents/", ""))
+				.map(name -> name.replace(".json", ""))
+				.collect(toSet());
+	}
+	
 	public void download(String dir) throws DataFormatException, IOException {
+		ZipUtils.unZip(dir, getCompressedIntents());
+	}
+
+	private byte[] getCompressedIntents()
+			throws JsonProcessingException, DataFormatException, IOException, JsonParseException, JsonMappingException {
 		String response = requestHelper.download();
 		byte[] compressedData = responseHelper.getZipDataFrom(
 				responseParser.parseOperationResponse(response));
-		
-		ZipUtils.unZip(dir, compressedData);
+		return compressedData;
 	}
 	
 	public void upload(String dir) throws JsonProcessingException {
@@ -86,7 +114,9 @@ public class Dialogflow {
 			Assert.fail("No response from Dialogflow. Did you say something before checking the response?");
 		
 		// Only parse the body when we haven't already
-		if (body == null)
+		if (body == null) {
 			body = responseParser.parseDetectIntentResponse(lastResponse);
+			coveredIntents.add(responseHelper.getIntent(body));
+		}
 	}
 }

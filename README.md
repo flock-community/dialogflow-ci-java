@@ -12,7 +12,7 @@ Follow the steps here to setup authentication for your project:
 This will let you generate access tokens.
 
 ## The Example project
-Clone/Download this from Github. In the resources/features directory there is an example feature for a simple Dialogflow project.
+In the resources/features directory there is an example feature for a simple Dialogflow project.
 
 Go to https://travis-ci.org/flock-se/dialogflow-ci-example. The feature is tested against the example Dialogflow application here.
 

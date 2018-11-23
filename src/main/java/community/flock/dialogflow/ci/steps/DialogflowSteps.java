@@ -5,10 +5,15 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import community.flock.dialogflow.ci.DialogflowTestRunner;
 import community.flock.dialogflow.ci.dialogflow.Dialogflow;
+import community.flock.dialogflow.ci.dialogflow.helper.CoverageInfo;
 import community.flock.dialogflow.ci.json.BasicCard;
 import cucumber.api.DataTable;
 import cucumber.api.java8.Nl;
@@ -16,8 +21,50 @@ import cucumber.api.java8.Nl;
 public class DialogflowSteps implements Nl {
 	protected DialogflowTestRunner context;
 	
+	private static boolean dunit = false;
+
+	@cucumber.api.java.Before
+    public void beforeAll() {
+        if(!dunit) {
+            Runtime.getRuntime().addShutdownHook(new PrintCoverageThread());
+            dunit = true;
+        }
+    }
+	
+	class PrintCoverageThread extends Thread {
+        public void run() {
+        	printCoverage();
+        }
+    }
+	
+	public void printCoverage() {
+		CoverageInfo coverageInfo;
+		System.out.println("");
+		try {
+			coverageInfo = context.getApplication().getCoverageInfo();
+
+			System.out.println(String.format("Covered intents (%d/%d):", 
+					coverageInfo.getCoveredIntents().size(),
+					coverageInfo.getAllIntents().size()));
+			for(String intent : coverageInfo.getCoveredIntents())
+				System.out.println(intent);
+	
+			System.out.println("");
+			
+			System.out.println(String.format("Uncovered intents  (%d/%d):", 
+						coverageInfo.getUncoveredIntents().size(),
+						coverageInfo.getAllIntents().size()));
+			for(String intent : coverageInfo.getUncoveredIntents())
+				System.out.println(intent);
+		} catch (IOException | DataFormatException e) {
+			System.out.println("Could not generate coverage info!");
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public DialogflowSteps(DialogflowTestRunner context) {
-		this.context = context;
+		this.context = context;		
 		
 		Stel("^ik begin een gesprek met de \"([^\"]*)\" Google Home applicatie$", (String application) -> {
 		    String projectId = System.getProperty("projectID");

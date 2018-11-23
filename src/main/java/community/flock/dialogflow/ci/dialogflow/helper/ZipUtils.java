@@ -35,6 +35,23 @@ public class ZipUtils {
 	        }
 	    }
 	}
+	
+	public static List<ZipEntry> getZipEntries(byte[] compressedData) throws IOException {
+		List<ZipEntry> entries = new ArrayList<ZipEntry>();
+		ZipInputStream zi = null;
+	    try {
+	        zi = new ZipInputStream(new ByteArrayInputStream(compressedData));
+	        ZipEntry zipEntry = null;
+	        while ((zipEntry = zi.getNextEntry()) != null) {
+	        	entries.add(zipEntry);
+	        }
+	    } finally {
+	        if (zi != null) {
+	            zi.close();
+	        }
+	    }
+	    return entries;
+	}
 
     public static byte[] zip(String dir) {
     	List<String> fileList = generateFileList(dir, new File(dir));
