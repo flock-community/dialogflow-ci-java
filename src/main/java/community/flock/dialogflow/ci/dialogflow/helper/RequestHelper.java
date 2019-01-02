@@ -16,12 +16,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+
+import community.flock.dialogflow.ci.json.Capability;
 import community.flock.dialogflow.ci.json.Context;
 import community.flock.dialogflow.ci.json.DetectIntentRequestBody;
 import community.flock.dialogflow.ci.json.ImportRequestBody;
+import community.flock.dialogflow.ci.json.Payload;
 import community.flock.dialogflow.ci.json.QueryInput;
 import community.flock.dialogflow.ci.json.QueryParameters;
+import community.flock.dialogflow.ci.json.Surface;
 import community.flock.dialogflow.ci.json.TextInput;
+import community.flock.dialogflow.ci.json.User;
 
 public class RequestHelper {
 	
@@ -38,12 +43,12 @@ public class RequestHelper {
 		this.sessionId = UUID.randomUUID();
 	}
 
-	public String query(String sentence) throws JsonProcessingException {
+	public String query(String sentence, Device device, String userId) throws JsonProcessingException {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(BASE_URL).path(
 				String.format("/projects/%s/agent/sessions/%s:detectIntent", projectId, sessionId));
 		
-		String json = generateQueryRequestBody(sentence);
+		String json = generateQueryRequestBody(sentence, device, userId);
 		System.out.println(target.getUri().toString());
 		System.out.println(json);
 		
@@ -88,7 +93,7 @@ public class RequestHelper {
 		}
 	}
 
-	private String generateQueryRequestBody(String sentence) throws JsonProcessingException {
+	private String generateQueryRequestBody(String sentence, Device device, String userId) throws JsonProcessingException {
 		DetectIntentRequestBody body = new DetectIntentRequestBody();
 		QueryParameters queryParameters = new QueryParameters();
 		body.setQueryParams(queryParameters);
@@ -102,7 +107,50 @@ public class RequestHelper {
 		textInput.setText(sentence);
 		textInput.setLanguageCode("nl");
 		
+		Payload payload = new Payload();
+		Surface surface = generateSurface(device);
+		payload.setSurface(surface);
+		
+		User user = generateUser(userId);
+		payload.setUser(user);
+
+		queryParameters.setPayload(payload);
+		
 		return convertToJson(body);
+	}
+
+	private User generateUser(String userId) {
+		User user = new User();
+		user.setUserId(userId);
+		user.setLocale("nl-NL");
+		return user;
+	}
+
+	private Surface generateSurface(Device device) {
+		Surface surface = new Surface();
+		List<Capability> capabilities = new ArrayList<>();
+		surface.setCapabilites(capabilities);
+		Capability audioOutput = new Capability();
+		audioOutput.setName("actions.capability.AUDIO_OUTPUT");
+		Capability screenOutput = new Capability();
+		screenOutput.setName("actions.capability.SCREEN_OUTPUT");
+		Capability webBrowser = new Capability();
+		webBrowser.setName("actions.capability.WEB_BROWSER");
+		Capability mediaResponseAudio = new Capability();
+		mediaResponseAudio.setName("actions.capability.MEDIA_RESPONSE_AUDIO");
+		
+		switch(device) {
+		case NONE: 
+			return null;
+		case PHONE:
+			capabilities.add(webBrowser);
+		case SMART_DISPLAY:
+			capabilities.add(screenOutput);
+		case SPEAKER:
+			capabilities.add(audioOutput);
+			capabilities.add(mediaResponseAudio);
+		}
+		return surface;
 	}
 	
 	private String generateImportRequestBody(String payload) throws JsonProcessingException {

@@ -1,7 +1,8 @@
 # language: nl
 Functionaliteit: Voorbeeld
   Achtergrond:
-    Stel ik begin een gesprek met de "Test" Google Home applicatie
+    Stel ik begin een gesprek met de Google Home applicatie via phone
+    En ik ben ingelogd als user met id "foo"
 
   Scenario: Test
     Als ik zeg "Hoe gaat het?"

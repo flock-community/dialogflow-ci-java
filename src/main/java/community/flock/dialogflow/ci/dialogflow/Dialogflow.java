@@ -11,6 +11,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.ZipEntry;
 
 import community.flock.dialogflow.ci.dialogflow.helper.CoverageInfo;
+import community.flock.dialogflow.ci.dialogflow.helper.Device;
 import community.flock.dialogflow.ci.dialogflow.helper.RequestHelper;
 import community.flock.dialogflow.ci.dialogflow.helper.ResponseHelper;
 import community.flock.dialogflow.ci.dialogflow.helper.ResponseParser;
@@ -34,6 +35,8 @@ public class Dialogflow {
 	private String lastResponse;
 	private DetectIntentResponseBody body;
 	private Set<String> coveredIntents;
+	private Device device;
+	private String userId;
 
 	public Dialogflow(String projectId, String token) {
 		this.requestHelper = new RequestHelper(projectId, token);
@@ -41,25 +44,56 @@ public class Dialogflow {
 		this.responseParser = new ResponseParser();
 		this.coveredIntents = new HashSet<>();
 	}
+	
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
+	/**
+	 * Performs a query to the application corresponding to when a user provides a written/spoken sentence. 
+	 * @param sentence The input to the application
+	 * @throws JsonProcessingException When the response couldn't be parsed
+	 */
 	public void say(String sentence) throws JsonProcessingException {
-		this.lastResponse = requestHelper.query(sentence);
+		this.lastResponse = requestHelper.query(sentence, device, userId);
 		body = null;
 		System.out.println(lastResponse);
 	}
 
+	/**
+	 * @return The detected intent name from the last received response
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public String getIntent() throws JsonParseException, JsonMappingException, IOException {
 		generateIntentBody();
 		
 		return responseHelper.getIntent(body);
 	}
 	
+	/**
+	 * @return The spoken response from the assistant in the last received response.
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public String getSpeech() throws JsonParseException, JsonMappingException, IOException {
 		generateIntentBody();
 		
 		return responseHelper.getSpeech(body);
 	}
 
+	/**
+	 * @return The basic card from the last received response or null
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public BasicCard getBasicCard() throws JsonParseException, JsonMappingException, IOException {
 		generateIntentBody();
 		
@@ -74,12 +108,41 @@ public class Dialogflow {
 			return null;
 	}
 	
+	/**
+	 * @return Coverage information on the application intents during this run
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 * @throws IOException
+	 * @throws DataFormatException
+	 */
 	public CoverageInfo getCoverageInfo() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, DataFormatException {
 		Set<String> intents = getAllIntentNames();
 		
 		return new CoverageInfo(intents, coveredIntents);
 	}
+	
+	/**
+	 * Download the intents/entities from the application to the given local directory
+	 * @param dir
+	 * @throws DataFormatException
+	 * @throws IOException
+	 */
+	public void download(String dir) throws DataFormatException, IOException {
+		ZipUtils.unZip(dir, getCompressedIntents());
+	}
+	
+	/**
+	 * Upload the intents/entities from the given local directory to the application
+	 * @param dir
+	 * @throws JsonProcessingException
+	 */
+	public void upload(String dir) throws JsonProcessingException {
+		byte[] zipData = ZipUtils.zip(dir);
+		requestHelper.upload(zipData);
+	}
 
+	
 	private Set<String> getAllIntentNames()
 			throws IOException, JsonProcessingException, DataFormatException, JsonParseException, JsonMappingException {
 		return ZipUtils.getZipEntries(getCompressedIntents()).stream()
@@ -89,10 +152,6 @@ public class Dialogflow {
 				.map(name -> name.replace(".json", ""))
 				.collect(toSet());
 	}
-	
-	public void download(String dir) throws DataFormatException, IOException {
-		ZipUtils.unZip(dir, getCompressedIntents());
-	}
 
 	private byte[] getCompressedIntents()
 			throws JsonProcessingException, DataFormatException, IOException, JsonParseException, JsonMappingException {
@@ -101,12 +160,6 @@ public class Dialogflow {
 				responseParser.parseOperationResponse(response));
 		return compressedData;
 	}
-	
-	public void upload(String dir) throws JsonProcessingException {
-		byte[] zipData = ZipUtils.zip(dir);
-		requestHelper.upload(zipData);
-	}
-
 	
 	private void generateIntentBody() throws JsonParseException, JsonMappingException, IOException {
 		// TODO: raise a nice exception and end test as errored

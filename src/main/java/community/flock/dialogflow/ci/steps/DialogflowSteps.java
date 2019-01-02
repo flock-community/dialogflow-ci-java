@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import community.flock.dialogflow.ci.DialogflowTestRunner;
 import community.flock.dialogflow.ci.dialogflow.Dialogflow;
 import community.flock.dialogflow.ci.dialogflow.helper.CoverageInfo;
+import community.flock.dialogflow.ci.dialogflow.helper.Device;
 import community.flock.dialogflow.ci.json.BasicCard;
 import cucumber.api.DataTable;
 import cucumber.api.java8.Nl;
@@ -66,11 +67,18 @@ public class DialogflowSteps implements Nl {
 	public DialogflowSteps(DialogflowTestRunner context) {
 		this.context = context;		
 		
-		Stel("^ik begin een gesprek met de \"([^\"]*)\" Google Home applicatie$", (String application) -> {
+		Stel("^ik begin een gesprek met de Google Home applicatie(?: via (phone|speaker|smart display))?$", (String device) -> {
 		    String projectId = System.getProperty("projectID");
 		    String token = System.getProperty("token");
+		    if (device == null)
+		    	device = "";
 			Dialogflow app = new Dialogflow(projectId, token);
+			app.setDevice(Device.findByStringRepresenation(device));
 			context.setApplication(app);
+		});
+		
+		Als("^ik ben ingelogd als user met id \"([^\"]*)\"$", (String userId) -> {
+			context.getApplication().setUserId(userId);
 		});
 
 		Als("^ik zeg \"([^\"]*)\"$", (String sentence) -> {
