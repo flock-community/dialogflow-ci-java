@@ -3,13 +3,13 @@ package community.flock.dialogflow.ci.json;
 import java.util.List;
 
 public class Surface {
-	private List<Capability> capabilites;
+	private List<Capability> capabilities;
 
-	public List<Capability> getCapabilites() {
-		return capabilites;
+	public List<Capability> getCapabilities() {
+		return capabilities;
 	}
 
-	public void setCapabilites(List<Capability> capabilites) {
-		this.capabilites = capabilites;
+	public void setCapabilities(List<Capability> capabilities) {
+		this.capabilities = capabilities;
 	}
 }

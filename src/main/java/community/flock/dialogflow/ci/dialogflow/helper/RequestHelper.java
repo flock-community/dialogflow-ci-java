@@ -129,7 +129,7 @@ public class RequestHelper {
 	private Surface generateSurface(Device device) {
 		Surface surface = new Surface();
 		List<Capability> capabilities = new ArrayList<>();
-		surface.setCapabilites(capabilities);
+		surface.setCapabilities(capabilities);
 		Capability audioOutput = new Capability();
 		audioOutput.setName("actions.capability.AUDIO_OUTPUT");
 		Capability screenOutput = new Capability();
